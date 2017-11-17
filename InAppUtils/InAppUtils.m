@@ -236,6 +236,7 @@ RCT_EXPORT_METHOD(receiptData:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(finishTransaction:(NSString *)transactionIdentifier)
 {
+    NSLog(@"trx finishTransaction");
     SKPaymentQueue *queue = [SKPaymentQueue defaultQueue];
     for(SKPaymentTransaction *transaction in queue.transactions){
         if(transaction.transactionIdentifier == transactionIdentifier && transaction.transactionState == SKPaymentTransactionStatePurchased) {
