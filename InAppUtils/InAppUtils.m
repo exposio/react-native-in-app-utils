@@ -90,19 +90,22 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(purchaseProductForUser:(NSString *)productIdentifier
+                  quantity:(nonnull NSInteger *)quantity
                   username:(NSString *)username
                   callback:(RCTResponseSenderBlock)callback)
 {
-    [self doPurchaseProduct:productIdentifier username:username callback:callback];
+    [self doPurchaseProduct:productIdentifier quantity:quantity username:username callback:callback];
 }
 
 RCT_EXPORT_METHOD(purchaseProduct:(NSString *)productIdentifier
+                  quantity:(nonnull NSInteger *)quantity
                   callback:(RCTResponseSenderBlock)callback)
 {
-    [self doPurchaseProduct:productIdentifier username:nil callback:callback];
+    [self doPurchaseProduct:productIdentifier quantity:quantity username:nil callback:callback];
 }
 
 - (void) doPurchaseProduct:(NSString *)productIdentifier
+                  quantity:(nonnull NSInteger *)quantity
                   username:(NSString *)username
                   callback:(RCTResponseSenderBlock)callback
 {
@@ -117,6 +120,9 @@ RCT_EXPORT_METHOD(purchaseProduct:(NSString *)productIdentifier
 
     if(product) {
         SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product];
+        if (quantity) {
+            payment.quantity = quantity;
+        }
         if(username) {
             payment.applicationUsername = username;
         }
@@ -134,7 +140,7 @@ restoreCompletedTransactionsFailedWithError:(NSError *)error
     NSString *key = RCTKeyForInstance(@"restoreRequest");
     RCTResponseSenderBlock callback = _callbacks[key];
     if (callback) {
-        switch (error.code)     
+        switch (error.code)
         {
             case SKErrorPaymentCancelled:
                 callback(@[@"user_cancelled"]);
@@ -143,7 +149,7 @@ restoreCompletedTransactionsFailedWithError:(NSError *)error
                 callback(@[@"restore_failed"]);
                 break;
         }
-        
+
         [_callbacks removeObjectForKey:key];
     } else {
         RCTLogWarn(@"No callback registered for restore product request.");
