@@ -90,7 +90,7 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_METHOD(purchaseProductForUser:(NSString *)productIdentifier
-                  quantity:(NSNumber *)quantity
+                  quantity:(nonnull NSInteger *)quantity
                   username:(NSString *)username
                   callback:(RCTResponseSenderBlock)callback)
 {
@@ -98,14 +98,14 @@ RCT_EXPORT_METHOD(purchaseProductForUser:(NSString *)productIdentifier
 }
 
 RCT_EXPORT_METHOD(purchaseProduct:(NSString *)productIdentifier
-                  quantity:(NSNumber *)quantity
+                  quantity:(nonnull NSInteger *)quantity
                   callback:(RCTResponseSenderBlock)callback)
 {
     [self doPurchaseProduct:productIdentifier quantity:quantity username:nil callback:callback];
 }
 
 - (void) doPurchaseProduct:(NSString *)productIdentifier
-                  quantity:(NSNumber *)quantity
+                  quantity:(nonnull NSInteger *)quantity
                   username:(NSString *)username
                   callback:(RCTResponseSenderBlock)callback
 {
