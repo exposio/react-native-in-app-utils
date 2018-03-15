@@ -97,6 +97,13 @@ RCT_EXPORT_METHOD(getPendingPurchases:(RCTResponseSenderBlock)callback)
     callback(@[[NSNull null], transactionsArrayForJS]);
 }
 
+RCT_EXPORT_METHOD(getSandboxEnvironment:(RCTResponseSenderBlock)callback)
+{
+    
+    BOOL isSandbox = [[[[NSBundle mainBundle] appStoreReceiptURL] lastPathComponent] isEqualToString:@"sandboxReceipt"];
+    callback(@[[NSNull null], [NSNumber numberWithBool:isSandbox]]);
+}
+
 RCT_EXPORT_METHOD(purchaseProductForUser:(NSString *)productIdentifier
                   quantity:(nonnull NSInteger *)quantity
                   username:(NSString *)username
